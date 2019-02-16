@@ -14,6 +14,9 @@ class HUNGERGAMETRIALS_API APatrollingGuard : public ATP_ThirdPersonCharacter
 {
 	GENERATED_BODY()
 
+public:
+	TArray<AActor*> GetPatrolPoints();
+
 protected:
 	UPROPERTY(EditInstanceOnly, Category = "Patrol Route")
 	TArray<AActor*>	PatrolPointsCPP;

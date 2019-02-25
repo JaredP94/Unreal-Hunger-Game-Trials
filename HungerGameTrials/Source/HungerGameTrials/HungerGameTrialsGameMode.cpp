@@ -2,7 +2,7 @@
 
 #include "HungerGameTrialsGameMode.h"
 #include "HungerGameTrialsHUD.h"
-#include "HungerGameTrialsCharacter.h"
+#include "Player/FirstPersonCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
 AHungerGameTrialsGameMode::AHungerGameTrialsGameMode()

@@ -15,8 +15,8 @@ public:
 	// Sets default values for this actor's properties
 	ATile();
 
-	UFUNCTION(BlueprintCallable, Category = "Weapon")
-	void PlaceActors();
+	UFUNCTION(BlueprintCallable, Category = "Generation")
+	void PlaceActors(TSubclassOf<AActor> ToSpawn, int32 MinSpawn, int32 MaxSpawn);
 
 protected:
 	// Called when the game starts or when spawned

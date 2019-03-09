@@ -24,6 +24,7 @@ void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int32 MinSpawn, int32 MaxSp
 		FVector SpawnPoint = FMath::RandPointInBox(Bounds);
 		AActor* Spawned = GetWorld()->SpawnActor<AActor>(ToSpawn);
 		Spawned->SetActorRelativeLocation(SpawnPoint);
+		SpawnedActors.Add(Spawned);
 		Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
 	}
 }
@@ -33,6 +34,14 @@ void ATile::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
+
+void ATile::Destroyed()
+{
+	Super::Destroyed();
+	
+	for (AActor* Actor : SpawnedActors)
+		Actor->Destroy();
 }
 
 // Called every frame

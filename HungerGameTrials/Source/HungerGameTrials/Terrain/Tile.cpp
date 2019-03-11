@@ -12,17 +12,21 @@ ATile::ATile()
 
 }
 
-void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int32 MinSpawn, int32 MaxSpawn, float Radius)
+void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int32 MinSpawn, int32 MaxSpawn, float Radius, float MinScale, float MaxScale)
 {
 	int NumberToSpawn = FMath::RandRange(MinSpawn, MaxSpawn);
 
 	for (int32 i = 0; i < NumberToSpawn; i++)
 	{
 		FVector SpawnPoint;
-		bool found = FindEmptyLocation(SpawnPoint, Radius);
+		float Scale = FMath::RandRange(MinScale, MaxScale);
+		bool found = FindEmptyLocation(SpawnPoint, Radius * Scale);
 
 		if (found)
-			PlaceActor(ToSpawn, SpawnPoint);
+		{
+			float Rotation = FMath::RandRange(-180.f, 180.f);
+			PlaceActor(ToSpawn, SpawnPoint, Rotation, Scale);
+		}
 	}
 }
 
@@ -63,10 +67,6 @@ bool ATile::CanSpawnAtLocation(FVector Location, float Radius)
 		FCollisionShape::MakeSphere(Radius)
 	);
 
-	FColor ResultColour = HasHit ? FColor::Red : FColor::Green;
-
-	DrawDebugCapsule(GetWorld(), GlobalLocation, 0, Radius, FQuat::Identity, ResultColour, true, 100);
-
 	return !HasHit;
 }
 
@@ -91,11 +91,13 @@ bool ATile::FindEmptyLocation(FVector& OutLocation, float Radius)
 	return false;
 }
 
-void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint)
+void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint, float Roation, float Scale)
 {
 	AActor* Spawned = GetWorld()->SpawnActor<AActor>(ToSpawn);
 	Spawned->SetActorRelativeLocation(SpawnPoint);
 	SpawnedActors.Add(Spawned);
 	Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
+	Spawned->SetActorRotation(FRotator(0, Roation, 0));
+	Spawned->SetActorScale3D(FVector(Scale));
 }
 

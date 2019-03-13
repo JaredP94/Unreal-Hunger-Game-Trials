@@ -34,8 +34,6 @@ void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int32 MinSpawn, int32 MaxSp
 void ATile::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	CanSpawnAtLocation(GetActorLocation(), 300);
 }
 
 void ATile::Destroyed()

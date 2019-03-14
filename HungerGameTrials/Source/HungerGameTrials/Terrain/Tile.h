@@ -42,6 +42,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
 	FVector MaxExtent;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Navigation")
+	FVector NavigationBoundsOffset;
+
 private:
 	bool CanSpawnAtLocation(FVector Location, float Radius);
 
@@ -50,8 +53,6 @@ private:
 	void PlaceActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint, float Roation, float Scale);
 
 	void PositionNavMeshBoundsVolume();
-
-	TArray<AActor*> SpawnedActors;
 
 	UActorPool* Pool;
 

@@ -3,6 +3,7 @@
 #include "Tile.h"
 #include "Runtime/Engine/Classes/Engine/World.h"
 #include "ActorPool.h"
+#include "NavigationSystem.h"
 
 // Sets default values
 ATile::ATile()
@@ -12,6 +13,7 @@ ATile::ATile()
 
 	MinExtent = FVector(0, -2000, 0);
 	MaxExtent = FVector(4000, 2000, 0);
+	NavigationBoundsOffset = FVector(2000, 0, 0);
 }
 
 void ATile::PlaceActors(TSubclassOf<AActor> ToSpawn, int32 MinSpawn, int32 MaxSpawn, float Radius, float MinScale, float MaxScale)
@@ -47,9 +49,6 @@ void ATile::EndPlay(const EEndPlayReason::Type EndPlayReason)
 void ATile::Destroyed()
 {
 	Super::Destroyed();
-	
-	for (AActor* Actor : SpawnedActors)
-		Actor->Destroy();
 }
 
 // Called every frame
@@ -76,7 +75,8 @@ void ATile::PositionNavMeshBoundsVolume()
 		return;
 	}
 	UE_LOG(LogTemp, Warning, TEXT("[%s] Checked out: {%s}"), *GetName(), *NavMeshBoundsVolume->GetName());
-	NavMeshBoundsVolume->SetActorLocation(GetActorLocation());
+	NavMeshBoundsVolume->SetActorLocation(GetActorLocation() + NavigationBoundsOffset);
+	FNavigationSystem::Build(*GetWorld());
 }
 
 bool ATile::CanSpawnAtLocation(FVector Location, float Radius)
@@ -119,7 +119,6 @@ void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, FVector SpawnPoint, float Ro
 {
 	AActor* Spawned = GetWorld()->SpawnActor<AActor>(ToSpawn);
 	Spawned->SetActorRelativeLocation(SpawnPoint);
-	SpawnedActors.Add(Spawned);
 	Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
 	Spawned->SetActorRotation(FRotator(0, Roation, 0));
 	Spawned->SetActorScale3D(FVector(Scale));

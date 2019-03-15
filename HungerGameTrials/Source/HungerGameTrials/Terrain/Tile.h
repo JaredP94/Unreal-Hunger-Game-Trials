@@ -63,11 +63,12 @@ private:
 
 	bool FindEmptyLocation(FVector& OutLocation, float Radius);
 
+	template<class T>
+	void RandomlyPlaceActors(TSubclassOf<T> ToSpawn, int32 MinSpawn = 1, int32 MaxSpawn = 1, float Radius = 500, float MinScale = 1, float MaxScale = 1);
+
 	void PlaceActor(TSubclassOf<AActor> ToSpawn, const FSpawnPosition& SpawnPosition);
 
-	void PlaceAIPawn(TSubclassOf<APawn> ToSpawn, FSpawnPosition SpawnPosition);
-
-	TArray<FSpawnPosition> RandomSpawnPositions(const int32 &MinSpawn, const int32 &MaxSpawn, float MinScale, float MaxScale, float Radius);
+	void PlaceActor(TSubclassOf<APawn> ToSpawn, FSpawnPosition SpawnPosition);
 
 	void PositionNavMeshBoundsVolume();
 

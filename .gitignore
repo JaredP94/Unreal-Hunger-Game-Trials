@@ -1,7 +1,6 @@
 Binaries
 DerivedDataCache
 Intermediate
-Saved
 .vscode
 .vs
 *.VC.db
@@ -13,3 +12,9 @@ Saved
 *.xcodeproj
 *.xcworkspace
 HungerGameTrials/Content/Dynamic/Levels/FirstPersonExampleMap_BuiltData.uasset
+HungerGameTrials/Saved/AutoScreenshot.png
+HungerGameTrials/Saved/Autosaves/
+HungerGameTrials/Saved/Backup/
+HungerGameTrials/Saved/Config/
+HungerGameTrials/Saved/Crashes/
+HungerGameTrials/Saved/Logs/

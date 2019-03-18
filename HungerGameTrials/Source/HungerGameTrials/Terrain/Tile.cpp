@@ -55,6 +55,7 @@ void ATile::PlaceActor(TSubclassOf<APawn> ToSpawn, FSpawnPosition SpawnPosition)
 		Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
 		Spawned->SpawnDefaultController();
 		Spawned->Tags.Add(FName("Enemy"));
+		Garbage.Add(Spawned);
 	}
 }
 
@@ -70,6 +71,17 @@ void ATile::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 	if (Pool && NavMeshBoundsVolume)
 		Pool->Return(NavMeshBoundsVolume);
+
+	if (Garbage.Num() != 0)
+	{
+		AActor * Prop;
+
+		while (Garbage.Num() != 0)
+		{
+			Prop = Garbage.Pop();
+			Prop->Destroy();
+		}
+	}
 }
 
 void ATile::Destroyed()
@@ -151,6 +163,7 @@ void ATile::PlaceActor(TSubclassOf<AActor> ToSpawn, const FSpawnPosition& SpawnP
 		Spawned->AttachToActor(this, FAttachmentTransformRules(EAttachmentRule::KeepRelative, false));
 		Spawned->SetActorRotation(FRotator(0, SpawnPosition.Rotation, 0));
 		Spawned->SetActorScale3D(FVector(SpawnPosition.Scale));
+		Garbage.Add(Spawned);
 	}
 }
 

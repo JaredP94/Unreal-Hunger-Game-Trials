@@ -53,6 +53,12 @@ void AMannequin::BeginPlay()
 		InputComponent->BindAction("Fire", IE_Pressed, this, &AMannequin::PullTrigger);
 }
 
+void AMannequin::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+	Gun->Destroy();
+}
+
 // Called every frame
 void AMannequin::Tick(float DeltaTime)
 {

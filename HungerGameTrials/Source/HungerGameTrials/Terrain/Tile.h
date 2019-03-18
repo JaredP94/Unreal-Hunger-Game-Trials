@@ -75,4 +75,6 @@ private:
 	UActorPool* Pool;
 
 	AActor* NavMeshBoundsVolume;
+
+	TArray<AActor *> Garbage;
 };
